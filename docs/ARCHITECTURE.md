@@ -49,13 +49,15 @@ run the motion as a sequence of single-cell `step()` calls (each fires `enter` r
 ## Data model (`game.json`)
 
 ```
-{ title, author, player, vars: {name: n}, rules: "...", template: "...pug...",
+{ title, author, vars: {name: n}, rules: "...", template: "...pug...",
   sprites: [{ id, glyph, color, solid, rules, img? }],
   levels:  [{ name, w, h, grid: [[spriteId]], start: {x,y}, rules,
              mode?: 'platformer', jumpHeight?, jumpReach? }] }
 ```
 
 Imports pass through `normalizeProject()` (`src/data/project.js`, DOM-free and unit-tested) before replacing `P`.
+The reserved `player` sprite supplies the player marker's appearance and is not a placeable tile; older top-level
+`player` glyphs migrate into it during import. Its collision and rule fields are always disabled.
 
 `mods` in game state is `{ "level:x,y": spriteId }`, overrides to the base grid created by the `tile` action.
 

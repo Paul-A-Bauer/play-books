@@ -18,9 +18,29 @@ test('old exports without a template get the default and a warning', () => {
   assert.ok(warnings.some(w => /template/i.test(w)));
 });
 
-test('projects without a player glyph use the ASCII fallback', () => {
-  const raw = clone(demo()); delete raw.player;
-  assert.strictEqual(normalizeProject(raw).project.player, '@');
+test('old player glyphs migrate to an appearance-only player sprite', () => {
+  const raw = clone(demo());
+  raw.player = 'P';
+  raw.sprites = raw.sprites.filter(s => s.id !== 'player');
+  const { project, warnings } = normalizeProject(raw);
+  assert.strictEqual(Object.hasOwn(project, 'player'), false);
+  assert.strictEqual(project.sprites.find(s => s.id === 'player').glyph, 'P');
+  assert.ok(warnings.some(w => /legacy player glyph/i.test(w)));
+});
+
+test('player sprite cannot have collision or rules', () => {
+  const raw = clone(demo());
+  const player = raw.sprites.find(s => s.id === 'player');
+  player.solid = true; player.rules = 'on enter: win';
+  const normalized = normalizeProject(raw).project.sprites.find(s => s.id === 'player');
+  assert.strictEqual(normalized.solid, false);
+  assert.strictEqual(normalized.rules, '');
+});
+
+test('player sprite cannot be used as a grid tile', () => {
+  const raw = clone(demo());
+  raw.levels[0].grid[1][2] = 'player';
+  assert.strictEqual(normalizeProject(raw).project.levels[0].grid[1][2], 'floor');
 });
 
 test('unknown tiles become floor, duplicates and bad data are repaired', () => {

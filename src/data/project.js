@@ -8,7 +8,6 @@ function normalizeProject(raw) {
   const P = {
     title: String(raw.title || 'Untitled'),
     author: String(raw.author || ''),
-    player: String(raw.player || '@'),
     vars: {},
     rules: String(raw.rules || ''),
     template: typeof raw.template === 'string' && raw.template.trim() ? raw.template : TEMPLATES.level,
@@ -34,11 +33,16 @@ function normalizeProject(raw) {
       id,
       glyph: String(s.glyph || ''),
       color: /^#[0-9a-f]{6}$/i.test(s.color) ? s.color : '#cccccc',
-      solid: !!s.solid,
-      rules: String(s.rules || '')
+      solid: id === 'player' ? false : !!s.solid,
+      rules: id === 'player' ? '' : String(s.rules || '')
     };
     if (typeof s.img === 'string' && s.img.startsWith('data:image/')) o.img = s.img;
     P.sprites.push(o);
+  }
+  if (!ids.has('player')) {
+    P.sprites.unshift({ id: 'player', glyph: String(raw.player || '@'), color: '#e8e2d0', solid: false, rules: '' });
+    ids.add('player');
+    if (raw.player != null) warnings.push('Moved the legacy player glyph into the "player" sprite.');
   }
   if (!ids.has('floor')) {
     P.sprites.unshift({ id: 'floor', glyph: '', color: '#e8e2d0', solid: false, rules: '' });
@@ -56,7 +60,7 @@ function normalizeProject(raw) {
       if (!Array.isArray(row) || row.length !== w) raggedRows = true;
       return Array.from({ length: w }, (_, x) => {
         const id = Array.isArray(row) ? row[x] : undefined;
-        if (ids.has(id)) return id;
+        if (ids.has(id) && id !== 'player') return id;
         unknownTiles++;
         return 'floor';
       });

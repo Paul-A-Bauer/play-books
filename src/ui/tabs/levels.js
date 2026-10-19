@@ -8,7 +8,7 @@ h('button',{on:{click(){addLevel('grid')}}},'+ Level'),h('button',{on:{click(){a
 h('button',{disabled:P.levels.length<2,on:{click(){P.levels.splice(cur,1);cur=0;render()}}},'Delete')),
 h('div',{className:'row'},h('input',{value:L.name,style:'width:130px',on:{input(e){L.name=e.target.value.trim()||L.name;save()}}}),'W',num('w'),'H',num('h')),
 modeRow(L),
-h('div',{className:'pal'},...P.sprites.map(s=>pbtn(s.id)),pbtn('@')),
+h('div',{className:'pal'},...P.sprites.filter(s=>s.id!=='player').map(s=>pbtn(s.id)),pbtn('@')),
 gridEl(L.w,L.h,(x,y)=>L.grid[y][x],L.start.x,L.start.y,(x,y)=>{if(tool==='@'){L.start={x,y};render()}else{L.grid[y][x]=tool;save()}}),
 h('p',{className:'mut'},'Tap or drag to paint. The face tile sets the player start. Brush: '+tool+(L.mode==='platformer'?'. Platformer: the player falls until standing on a solid tile; falling off the bottom loses.':'')))}
 

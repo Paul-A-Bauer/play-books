@@ -78,7 +78,7 @@ test('a level name cannot inject Pug code even when custom templates are allowed
 
 test('special characters in the title and glyphs produce well-formed output', { timeout: 120000 }, () => withServer({}, async base => {
   const p = demo();
-  p.title = 'A & <B> "C" ]]> \u0001x'; p.player = '<&>';
+  p.title = 'A & <B> "C" ]]> \u0001x'; p.sprites.find(s => s.id === 'player').glyph = '<&>';
   const r = await post(base, p);
   assert.strictEqual(r.status, 200);
   const zip = await JSZip.loadAsync(Buffer.from(await r.arrayBuffer()));

@@ -12,8 +12,9 @@ function demo() {
   const vault = mk('Vault', 9, 3, ['#########', '#@..d..g#', '#########']);
   vault.rules = 'on start: say The vault door needs the key you found.';
   return {
-    title: 'Key Quest', author: '', player: '\u{1F642}', vars: { keys: 0 }, rules: '', template: TEMPLATES.level,
+    title: 'Key Quest', author: '', vars: { keys: 0 }, rules: '', template: TEMPLATES.level,
     sprites: [
+      { id: 'player', glyph: '\u{1F642}', color: '#e8e2d0', solid: false, rules: '' },
       { id: 'floor', glyph: '', color: '#e8e2d0', solid: false, rules: '' },
       { id: 'wall', glyph: '', color: '#44475a', solid: true, rules: '' },
       { id: 'key', glyph: '\u{1F511}', color: '#e8e2d0', solid: false, rules: 'on enter: add keys 1; tile floor; say Got a key!' },

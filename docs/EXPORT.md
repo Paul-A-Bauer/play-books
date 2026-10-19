@@ -45,10 +45,16 @@ Here the state is the player position, level, variables, changed tiles, current 
 Each link is `goto(state.next(dx, dy), s => s.move(dx, dy))`, where `next()` picks the template of the level the move
 lands in. The links come from `state.actions()`, which returns only the moves that actually change the state, labelled for
 the level's mode (4-way arrows in grid levels; walk and jump options in platformer levels). The default export renders
-these as separate ASCII-labelled links in a stable order. Non-ASCII player and tile glyphs fall back to `@` and the
-sprite's initial, respectively, without changing project data. The grid uses percentage widths and basic HTML table
-attributes rather than depending on CSS. Reader link-focus behavior and page-turn behavior still vary by firmware; test
-on the target device before relying on them.
+these as separate ASCII-labelled links in a stable order. The player is an appearance-only `player` sprite, so its glyph,
+color and image are edited on the Sprites tab; old project-level `player` glyphs migrate into this sprite on import.
+Non-ASCII player and tile glyphs fall back to `@` and the sprite's initial, respectively, in the default export. The
+default grid uses percentage widths and basic HTML table attributes rather than depending on CSS.
+
+For readers with broken table rendering, a plain-text layout can instead use a `<pre>` block with one ASCII character per
+tile and one line per row. This avoids both tables and CSS, but loses tile colors and images, depends on a monospaced
+font, and can exceed the screen width on larger grids. Keep the table layout unless testing on the target reader shows a
+table problem; copy the grid rows into `<pre>` in the custom Pug template when text-only rendering is more reliable.
+Reader link-focus behavior and page-turn behavior still vary by firmware; test on the target device before relying on them.
 
 Use **Preview > Estimate page count** to see the number of reachable states (it stops at 5000).
 
