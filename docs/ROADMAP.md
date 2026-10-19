@@ -17,10 +17,15 @@ and focus work for item 1, so the on-device link test in item 1 can happen first
 Primary example: the **Xteink X3**, a pocket e-ink reader with a 3.7-inch screen (about 259 PPI), physical page-turn buttons
 instead of a touchscreen, a gyroscope for shake/tilt page turns, no frontlight, and EPUB support. Its sibling, the
 **Xteink X4** (4.3-inch, about 220 PPI), is also button-only. Both can run Xteink's own firmware or the open-source
-CrossPoint Reader (not yet available for the X3 at the time of writing). Sources:
+CrossPoint Reader. Sources:
 [Liliputing](https://liliputing.com/xteink-x3-is-an-even-smaller-ereader-3-7-inch-e-ink-device-for-79/),
 [Six Colors](https://sixcolors.com/post/2026/07/review-xteink-x3-is-the-little-e-reader-the-worlds-not-quite-ready-for/),
 [Xteink](https://www.xteink.com/s/amethystjuliet6). Details change with firmware; verify on a real device.
+
+specifically to support as many ereader devices as possible we need to support
+- maintaining layout integrity on verying screen sizes
+- little to no css support on many devices
+- limited fonts and character sets(asccii)
 
 ## Upcoming
 
