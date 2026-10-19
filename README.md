@@ -1,4 +1,4 @@
-# Storyteller Level Builder
+# Play Books
 
 A browser-based level builder for **2D tile games** that compile to interactive ePUBs with the
 [Storyteller](https://github.com/eit6609/storyteller) engine. Paint levels with sprites, attach rules to

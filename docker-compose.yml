@@ -1,7 +1,7 @@
 services:
-  level-builder:
+  play-books:
     build: .
-    image: storyteller-level-builder:0.4.0
+    image: play-books:0.4.0
     ports:
       # Bound to localhost: the app has no login. Put a reverse proxy with auth in front before exposing it.
       - "8080:8080"

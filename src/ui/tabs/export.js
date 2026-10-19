@@ -88,7 +88,7 @@ async function probeServer() {
   try {
     const r = await fetch('/healthz', { cache: 'no-store' });
     const j = r.ok ? await r.json() : null;
-    serverInfo = j && j.app === 'storyteller-level-builder' ? j : false;
+    serverInfo = j && j.app === 'play-books' ? j : false;
   } catch (e) { serverInfo = false; }
   if (tab === 'export') render();
 }

@@ -1,5 +1,5 @@
 {
-  "name": "storyteller-level-builder",
+  "name": "play-books",
   "version": "0.4.0",
   "private": true,
   "description": "Browser-based level builder for 2D tile games compiled to interactive ePUBs with Storyteller",

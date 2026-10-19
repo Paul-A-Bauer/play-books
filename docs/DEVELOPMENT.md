@@ -4,13 +4,13 @@ Requires Node 18+ (the container uses Node 22).
 
 ```bash
 npm install
-npm run build        # dist/storyteller-level-builder.html
+npm run build        # dist/play-books.html
 npm test             # unit tests for the engine
 npm run test:e2e     # builds the demo project into a real ePUB (needs the dev dependencies)
 ```
 
 `npm run dev` rebuilds the page and starts the server with auto-restart on http://localhost:8080. Opening
-`dist/storyteller-level-builder.html` directly also works, without the build button.
+`dist/play-books.html` directly also works, without the build button.
 
 Server code lives in `server/`; tests for it use real builds (`test/server.test.js`). To check ePUB validity with
 [EPUBCheck](https://github.com/w3c/epubcheck), download a build with `curl` (see DEPLOYMENT.md) and run

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Builds dist/storyteller-level-builder.html (single self-contained page).
+// Builds dist/play-books.html (single self-contained page).
 const fs = require('fs'), path = require('path');
 const { CORE, UI } = require('./sources');
 const R = p => path.join(__dirname, '..', p);
@@ -22,8 +22,8 @@ function build() {
     .replace('/*STYLES*/', () => fs.readFileSync(R('src/styles.css'), 'utf8'))
     .replace('/*SCRIPT*/', () => script);
   fs.mkdirSync(R('dist'), { recursive: true });
-  fs.writeFileSync(R('dist/storyteller-level-builder.html'), html);
-  console.log('Built dist/storyteller-level-builder.html (' + Math.round(html.length / 1024) + ' KB)');
+  fs.writeFileSync(R('dist/play-books.html'), html);
+  console.log('Built dist/play-books.html (' + Math.round(html.length / 1024) + ' KB)');
 }
 
 module.exports = { generateTemplates, build };

@@ -3,7 +3,7 @@ const fs = require('fs'), http = require('http'), path = require('path');
 const { buildEpub, BuildError, Limiter } = require('./build');
 const pkg = require('../package.json');
 
-const PAGE = 'storyteller-level-builder.html';
+const PAGE = 'play-books.html';
 const CDN_JSZIP = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
 const CSP = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'";
 
@@ -49,7 +49,7 @@ function createApp(cfg) {
       return send(res, 200, { 'Content-Type': 'text/html; charset=utf-8', 'Content-Security-Policy': CSP, 'Cache-Control': 'no-cache' }, page);
     }
     if (url.pathname === '/healthz') {
-      return json(res, 200, { ok: true, app: 'storyteller-level-builder', version: pkg.version,
+      return json(res, 200, { ok: true, app: 'play-books', version: pkg.version,
         limits: { maxPages: cfg.maxPages, maxLevels: cfg.maxLevels, maxBodyMb: Math.round(cfg.maxBodyBytes / 1048576) },
         customTemplates: cfg.allowCustomTemplates });
     }

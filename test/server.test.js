@@ -18,10 +18,10 @@ const marker = name => path.join(os.tmpdir(), 'slb-pwned-' + process.pid + '-' +
 
 test('serves the page, healthz and the local JSZip copy', () => withServer({}, async base => {
   const page = await (await fetch(base + '/')).text();
-  assert.match(page, /Storyteller Level Builder/);
+  assert.match(page, /Play Books/);
   assert.ok(page.includes('/vendor/jszip.min.js'), 'CDN script is rewritten to the local copy');
   const hz = await (await fetch(base + '/healthz')).json();
-  assert.strictEqual(hz.app, 'storyteller-level-builder');
+  assert.strictEqual(hz.app, 'play-books');
   assert.strictEqual(hz.limits.maxPages, 2000);
   assert.strictEqual((await fetch(base + '/vendor/jszip.min.js')).status, 200);
   assert.strictEqual((await fetch(base + '/nope')).status, 404);
