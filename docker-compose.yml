@@ -1,0 +1,22 @@
+services:
+  level-builder:
+    build: .
+    image: storyteller-level-builder:0.4.0
+    ports:
+      # Bound to localhost: the app has no login. Put a reverse proxy with auth in front before exposing it.
+      - "8080:8080"
+    environment:
+      PORT: "8080"
+      MAX_PAGES: "2000"                # refuse games with more reachable states than this
+      BUILD_TIMEOUT_MS: "120000"
+      MAX_CONCURRENT_BUILDS: "2"
+      MAX_BODY_MB: "20"
+      ALLOW_CUSTOM_TEMPLATES: "0"      # 1 = honour project Pug templates (they can run code: trusted single user only)
+    read_only: true
+    tmpfs:
+      - /tmp:size=256m                 # per-build scratch space, deleted after every build
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 1g
+    pids_limit: 128
+    restart: unless-stopped

@@ -1,0 +1,23 @@
+{
+  "name": "storyteller-level-builder",
+  "version": "0.4.0",
+  "private": true,
+  "description": "Browser-based level builder for 2D tile games compiled to interactive ePUBs with Storyteller",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "start": "node server/index.js",
+    "dev": "npm run build && node --watch server/index.js",
+    "test": "node --test test/engine.test.js test/project.test.js test/platformer.test.js test/playthrough.test.js",
+    "test:server": "node --test test/server.test.js",
+    "test:e2e": "node --test test/export.e2e.js",
+    "test:all": "npm run build && npm test && npm run test:e2e && npm run test:server"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@eit6609/storyteller": "^2.0.1",
+    "pug": "^3.0.4",
+    "jszip": "^3.10.1"
+  }
+}
