@@ -4,18 +4,19 @@ html(xmlns='http://www.w3.org/1999/xhtml', xml:lang='en')
     title {{TITLE}}
   body
     h3 {{TITLE}}
-    table(style='border-collapse:collapse;margin:auto')
+    table(width='100%', cellpadding='0', cellspacing='0')
       each row, y in state.L().grid
         tr
           each id, x in row
             - const t = state.sprite(state.tileAt(x, y))
-            td(style='width:2em;height:2em;text-align:center;padding:0;background:' + (t.color || '#ddd'))
+            - const glyph = t.glyph ? (/^[\x20-\x7e]+$/.test(t.glyph) ? t.glyph : (t.id || '?').charAt(0).toUpperCase()) : ''
+            td(width=(100 / state.L().w) + '%', align='center', valign='middle', bgcolor=(t.color || '#ddd'))
               if x === state.x && y === state.y
-                | #{state.cfg().player}
+                | #{/^[\x20-\x7e]+$/.test(state.cfg().player) ? state.cfg().player : '@'}
               else if t.img
-                img(src=t.img, alt='', style='width:2em;height:2em')
+                img(src=t.img, alt='', width='100%')
               else
-                | #{t.glyph || ''}
+                | #{glyph}
     p #{state.msg}
     p #{JSON.stringify(state.vars)}
     if state.over
@@ -24,7 +25,6 @@ html(xmlns='http://www.w3.org/1999/xhtml', xml:lang='en')
     else if state.actions().length === 0
       p No moves possible. #[a(href=goto('level0', (s) => s.reset())) Restart]
     else
-      p
-        - for (const a of state.actions())
-          a(href=goto(state.next(a.dx, a.dy), (s) => s.move(a.dx, a.dy))) #{a.label}
-          | &#160;&#160;
+      each a in state.actions()
+        - const label = a.dy < 0 ? (a.dx < 0 ? 'Jump left' : a.dx > 0 ? 'Jump right' : 'Jump') : a.dx < 0 ? 'Left' : a.dx > 0 ? 'Right' : a.dy < 0 ? 'Up' : 'Down'
+        p #[a(href=goto(state.next(a.dx, a.dy), (s) => s.move(a.dx, a.dy))) #{label}]

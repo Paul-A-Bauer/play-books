@@ -8,7 +8,7 @@ function normalizeProject(raw) {
   const P = {
     title: String(raw.title || 'Untitled'),
     author: String(raw.author || ''),
-    player: String(raw.player || '🙂'),
+    player: String(raw.player || '@'),
     vars: {},
     rules: String(raw.rules || ''),
     template: typeof raw.template === 'string' && raw.template.trim() ? raw.template : TEMPLATES.level,

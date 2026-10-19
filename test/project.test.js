@@ -18,6 +18,11 @@ test('old exports without a template get the default and a warning', () => {
   assert.ok(warnings.some(w => /template/i.test(w)));
 });
 
+test('projects without a player glyph use the ASCII fallback', () => {
+  const raw = clone(demo()); delete raw.player;
+  assert.strictEqual(normalizeProject(raw).project.player, '@');
+});
+
 test('unknown tiles become floor, duplicates and bad data are repaired', () => {
   const raw = clone(demo());
   raw.levels[0].grid[1][2] = 'nope';

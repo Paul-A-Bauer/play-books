@@ -26,6 +26,12 @@ test('demo project builds an ePUB with Storyteller', { timeout: 120000 }, () => 
   assert.ok(r.epub);
   assert.ok(r.pages > 10);
   for (const t of ['Maze', 'Platforms', 'Vault', 'YOU WIN']) assert.ok(r.text.includes(t), 'missing page text: ' + t);
+  assert.match(r.text, /<table[^>]*width="100%"/);
+  assert.match(r.text, /<td[^>]*width="[\d.]+%"/);
+  for (const label of ['Up', 'Left', 'Right', 'Down', 'Jump', 'Jump left', 'Jump right']) {
+    assert.ok(r.text.includes('>' + label + '</a>'), 'missing ASCII action: ' + label);
+  }
+  assert.ok(!/[←↑→↓↖↗🙂]/u.test(r.text), 'default export should replace unsupported control and player glyphs');
 });
 
 test('platformer project builds an ePUB with a bounded page count', { timeout: 120000 }, () => {

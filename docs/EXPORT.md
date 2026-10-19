@@ -44,7 +44,11 @@ Storyteller renders a page for every (template, state) pair it can reach by foll
 Here the state is the player position, level, variables, changed tiles, current message and win/lose flag.
 Each link is `goto(state.next(dx, dy), s => s.move(dx, dy))`, where `next()` picks the template of the level the move
 lands in. The links come from `state.actions()`, which returns only the moves that actually change the state, labelled for
-the level's mode (4-way arrows in grid levels; walk and jump options in platformer levels).
+the level's mode (4-way arrows in grid levels; walk and jump options in platformer levels). The default export renders
+these as separate ASCII-labelled links in a stable order. Non-ASCII player and tile glyphs fall back to `@` and the
+sprite's initial, respectively, without changing project data. The grid uses percentage widths and basic HTML table
+attributes rather than depending on CSS. Reader link-focus behavior and page-turn behavior still vary by firmware; test
+on the target device before relying on them.
 
 Use **Preview > Estimate page count** to see the number of reachable states (it stops at 5000).
 
