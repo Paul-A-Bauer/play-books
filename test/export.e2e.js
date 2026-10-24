@@ -56,6 +56,8 @@ test('demo project builds an ePUB with Storyteller', { timeout: 120000 }, async 
     assert.ok(r.text.includes('>' + label + '</a>'), 'missing ASCII action: ' + label);
   }
   assert.ok(!/[←↑→↓↖↗🙂]/u.test(r.text), 'default export should use ASCII glyphs');
+  assert.match(r.page, /<p align="center"><a href="[^"]+">(?:Up|Left|Right|Down)<\/a><\/p>/);
+  assert.ok(!/<p>(?:<a href=|[^<]*<a href="[^"]+">(?:Up|Left|Right|Down)<\/a>)/.test(r.page), 'action tap targets should be centered');
 });
 
 test('platformer project builds an ePUB with a bounded page count', { timeout: 120000 }, async () => {

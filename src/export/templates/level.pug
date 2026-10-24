@@ -10,12 +10,10 @@ html(xmlns='http://www.w3.org/1999/xhtml', xml:lang='en')
     p #{JSON.stringify(state.vars)}
     if state.over
       h1 YOU #{state.over.toUpperCase()}
-      p #[a(href=goto('level0', (s) => s.reset())) Play again]
+      p(align='center') #[a(href=goto('level0', (s) => s.reset())) Play again]
     else if state.actions().length === 0
-      p No moves possible. #[a(href=goto('level0', (s) => s.reset())) Restart]
+      p(align='center') No moves possible. #[a(href=goto('level0', (s) => s.reset())) Restart]
     else
-      p
-        each a in state.actions()
-          - const label = state.L().mode === 'platformer' && a.dy < 0 ? (a.dx < 0 ? 'Jump left' : a.dx > 0 ? 'Jump right' : 'Jump') : a.dx < 0 ? 'Left' : a.dx > 0 ? 'Right' : a.dy < 0 ? 'Up' : 'Down'
-          a(href=goto(state.next(a.dx, a.dy), (s) => s.move(a.dx, a.dy))) #{label}
-          | #{' / '}
+      each a in state.actions()
+        - const label = state.L().mode === 'platformer' && a.dy < 0 ? (a.dx < 0 ? 'Jump left' : a.dx > 0 ? 'Jump right' : 'Jump') : a.dx < 0 ? 'Left' : a.dx > 0 ? 'Right' : a.dy < 0 ? 'Up' : 'Down'
+        p(align='center') #[a(href=goto(state.next(a.dx, a.dy), (s) => s.move(a.dx, a.dy))) #{label}]
