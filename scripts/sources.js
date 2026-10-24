@@ -5,6 +5,7 @@ const CORE = [
   'src/engine/estimate.js',
   'src/data/demo.js',
   'src/data/project.js',
+  'src/export/fixed-layout.js',
   'src/export/exporter.js'
 ];
 const UI = [

@@ -43,6 +43,18 @@ test('player sprite cannot be used as a grid tile', () => {
   assert.strictEqual(normalizeProject(raw).project.levels[0].grid[1][2], 'floor');
 });
 
+test('every sprite normalizes to one printable ASCII glyph', () => {
+  const raw = clone(demo());
+  raw.sprites.find(s => s.id === 'floor').glyph = '';
+  raw.sprites.find(s => s.id === 'wall').glyph = '🧱';
+  raw.sprites.push({ id: 'custom-door', glyph: 'door', color: '#ffffff' });
+  const sprites = normalizeProject(raw).project.sprites;
+  assert.strictEqual(sprites.find(s => s.id === 'floor').glyph, '.');
+  assert.strictEqual(sprites.find(s => s.id === 'wall').glyph, '#');
+  assert.strictEqual(sprites.find(s => s.id === 'customdoor').glyph.length, 1);
+  assert.ok(sprites.every(s => /^[\x20-\x7e]$/.test(s.glyph)));
+});
+
 test('unknown tiles become floor, duplicates and bad data are repaired', () => {
   const raw = clone(demo());
   raw.levels[0].grid[1][2] = 'nope';

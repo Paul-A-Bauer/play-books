@@ -1,7 +1,8 @@
 'use strict';
 const fsp = require('fs/promises'), os = require('os'), path = require('path');
 const { spawn } = require('child_process');
-const { buildFiles, normalizeProject, estimatePages, TEMPLATES } = require('./core');
+const { buildFiles, normalizeProject, estimatePages, makeFixedLayout, TEMPLATES } = require('./core');
+const JSZip = require('jszip');
 
 // XML 1.0 forbids most control characters; they would make pages unreadable, so strip them from every string.
 const BAD_XML = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g;
@@ -71,7 +72,8 @@ async function buildEpub(raw, cfg) {
       await fsp.writeFile(f, files[rel]);
     }
     await runWorker(dir, cfg);
-    return { epub: await fsp.readFile(path.join(dir, 'game.epub')), pages: est.n, warnings, title: project.title };
+    const epub = await makeFixedLayout(await fsp.readFile(path.join(dir, 'game.epub')), JSZip);
+    return { epub, pages: est.n, warnings, title: project.title };
   } finally {
     await fsp.rm(dir, { recursive: true, force: true });
   }

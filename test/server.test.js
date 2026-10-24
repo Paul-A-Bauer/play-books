@@ -85,7 +85,8 @@ test('special characters in the title and glyphs produce well-formed output', { 
   const opf = await zip.file('OEBPS/content.opf').async('string');
   assert.ok(!opf.includes('<B') && !opf.includes('\u0001') && !opf.includes(']]>'), 'title must be well-formed XML text');
   assert.ok(opf.includes('A &amp; &lt;B'));
-  assert.ok((await zip.file('OEBPS/0000.html').async('string')).includes('&lt;&amp;&gt;'));
+  const firstPage = await zip.file('OEBPS/0000.html').async('string');
+  assert.ok(firstPage.includes('<pre>') && firstPage.includes('#@'), 'invalid glyphs use the ASCII player fallback');
 }));
 
 test('extra concurrent builds beyond the queue get 429', { timeout: 120000 }, () => withServer({ maxConcurrent: 1, maxQueue: 0 }, async base => {

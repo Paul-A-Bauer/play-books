@@ -9,6 +9,7 @@ function buildFiles(P, kit) {
   const D = JSON.parse(JSON.stringify(P));
   const files = {
     'engine.js': 'module.exports = ' + Game.toString() + ';\n',
+    'fixed-layout.js': 'module.exports = ' + makeFixedLayout.toString() + ';\n',
     'game.json': JSON.stringify(D, null, 2),
     'main.js': TEMPLATES.main
   };

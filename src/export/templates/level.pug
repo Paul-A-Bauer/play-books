@@ -4,18 +4,8 @@ html(xmlns='http://www.w3.org/1999/xhtml', xml:lang='en')
     title {{TITLE}}
   body
     h3 {{TITLE}}
-    table(width='100%', cellpadding='0', cellspacing='0')
-      each row, y in state.L().grid
-        tr
-          each id, x in row
-            - const isPlayer = x === state.x && y === state.y
-            - const t = state.sprite(isPlayer ? 'player' : state.tileAt(x, y))
-            - const glyph = t.glyph ? (/^[\x20-\x7e]+$/.test(t.glyph) ? t.glyph : (isPlayer ? '@' : (t.id || '?').charAt(0).toUpperCase())) : ''
-            td(width=(100 / state.L().w) + '%', align='center', valign='middle', bgcolor=(t.color || '#ddd'))
-              if t.img
-                img(src=t.img, alt=glyph, width='100%')
-              else
-                | #{glyph}
+    - const map = state.L().grid.map((row, y) => row.map((id, x) => { const isPlayer = x === state.x && y === state.y; const t = state.sprite(isPlayer ? 'player' : state.tileAt(x, y)); const glyph = t.glyph; return /^[\x20-\x7e]$/.test(glyph) ? glyph : ({ player: '@', floor: '.', wall: '#', key: 'k', door: 'D', exit: '>', goal: '*' }[t.id] || (t.id.match(/[A-Za-z0-9]/) || ['?'])[0]); }).join(''))
+    pre= map.join('\n')
     p #{state.msg}
     p #{JSON.stringify(state.vars)}
     if state.over
@@ -24,6 +14,8 @@ html(xmlns='http://www.w3.org/1999/xhtml', xml:lang='en')
     else if state.actions().length === 0
       p No moves possible. #[a(href=goto('level0', (s) => s.reset())) Restart]
     else
-      each a in state.actions()
-        - const label = state.L().mode === 'platformer' && a.dy < 0 ? (a.dx < 0 ? 'Jump left' : a.dx > 0 ? 'Jump right' : 'Jump') : a.dx < 0 ? 'Left' : a.dx > 0 ? 'Right' : a.dy < 0 ? 'Up' : 'Down'
-        p #[a(href=goto(state.next(a.dx, a.dy), (s) => s.move(a.dx, a.dy))) #{label}]
+      p
+        each a in state.actions()
+          - const label = state.L().mode === 'platformer' && a.dy < 0 ? (a.dx < 0 ? 'Jump left' : a.dx > 0 ? 'Jump right' : 'Jump') : a.dx < 0 ? 'Left' : a.dx > 0 ? 'Right' : a.dy < 0 ? 'Up' : 'Down'
+          a(href=goto(state.next(a.dx, a.dy), (s) => s.move(a.dx, a.dy))) #{label}
+          | #{' / '}

@@ -2,5 +2,5 @@
   "name": "storyteller-game",
   "private": true,
   "scripts": { "build": "node main.js" },
-  "dependencies": { "@eit6609/storyteller": "*", "pug": "*" }
+  "dependencies": { "@eit6609/storyteller": "*", "jszip": "*", "pug": "*" }
 }

@@ -2,6 +2,7 @@
 // Returns { project, warnings }. Throws Error when the file cannot be a project at all.
 function normalizeProject(raw) {
   const warnings = [];
+  const fallbackGlyph = id => ({ player: '@', floor: '.', wall: '#', key: 'k', door: 'D', exit: '>', goal: '*' }[id] || (id.match(/[A-Za-z0-9]/) || ['?'])[0]);
   if (!raw || typeof raw !== 'object') throw new Error('Not a project object');
   if (!Array.isArray(raw.levels) || !raw.levels.length) throw new Error('Project has no levels');
 
@@ -29,9 +30,10 @@ function normalizeProject(raw) {
     const id = String((s && s.id) || '').replace(/\W/g, '');
     if (!id || ids.has(id)) { warnings.push('Skipped a sprite with a missing or duplicate id.'); continue; }
     ids.add(id);
+    const glyph = String(s.glyph || '');
     const o = {
       id,
-      glyph: String(s.glyph || ''),
+      glyph: /^[\x20-\x7e]$/.test(glyph) ? glyph : fallbackGlyph(id),
       color: /^#[0-9a-f]{6}$/i.test(s.color) ? s.color : '#cccccc',
       solid: id === 'player' ? false : !!s.solid,
       rules: id === 'player' ? '' : String(s.rules || '')
@@ -40,12 +42,12 @@ function normalizeProject(raw) {
     P.sprites.push(o);
   }
   if (!ids.has('player')) {
-    P.sprites.unshift({ id: 'player', glyph: String(raw.player || '@'), color: '#e8e2d0', solid: false, rules: '' });
+    P.sprites.unshift({ id: 'player', glyph: /^[\x20-\x7e]$/.test(String(raw.player || '')) ? String(raw.player) : '@', color: '#e8e2d0', solid: false, rules: '' });
     ids.add('player');
     if (raw.player != null) warnings.push('Moved the legacy player glyph into the "player" sprite.');
   }
   if (!ids.has('floor')) {
-    P.sprites.unshift({ id: 'floor', glyph: '', color: '#e8e2d0', solid: false, rules: '' });
+    P.sprites.unshift({ id: 'floor', glyph: '.', color: '#e8e2d0', solid: false, rules: '' });
     ids.add('floor');
     warnings.push('Added the missing "floor" sprite.');
   }

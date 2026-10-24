@@ -14,13 +14,13 @@ function demo() {
   return {
     title: 'Key Quest', author: '', vars: { keys: 0 }, rules: '', template: TEMPLATES.level,
     sprites: [
-      { id: 'player', glyph: '\u{1F642}', color: '#e8e2d0', solid: false, rules: '' },
-      { id: 'floor', glyph: '', color: '#e8e2d0', solid: false, rules: '' },
-      { id: 'wall', glyph: '', color: '#44475a', solid: true, rules: '' },
-      { id: 'key', glyph: '\u{1F511}', color: '#e8e2d0', solid: false, rules: 'on enter: add keys 1; tile floor; say Got a key!' },
-      { id: 'door', glyph: '\u{1F6AA}', color: '#c98f4a', solid: false, rules: 'on enter if keys < 1: say Locked.; block\non enter if keys >= 1: add keys -1; tile floor' },
-      { id: 'exit', glyph: '\u{1F300}', color: '#7aa6e8', solid: false, rules: '' },
-      { id: 'goal', glyph: '\u2B50', color: '#f6d860', solid: false, rules: 'on enter: next' }
+      { id: 'player', glyph: '@', color: '#e8e2d0', solid: false, rules: '' },
+      { id: 'floor', glyph: '.', color: '#e8e2d0', solid: false, rules: '' },
+      { id: 'wall', glyph: '#', color: '#44475a', solid: true, rules: '' },
+      { id: 'key', glyph: 'k', color: '#e8e2d0', solid: false, rules: 'on enter: add keys 1; tile floor; say Got a key!' },
+      { id: 'door', glyph: 'D', color: '#c98f4a', solid: false, rules: 'on enter if keys < 1: say Locked.; block\non enter if keys >= 1: add keys -1; tile floor' },
+      { id: 'exit', glyph: '>', color: '#7aa6e8', solid: false, rules: '' },
+      { id: 'goal', glyph: '*', color: '#f6d860', solid: false, rules: 'on enter: next' }
     ],
     levels: [maze, plat, vault]
   };

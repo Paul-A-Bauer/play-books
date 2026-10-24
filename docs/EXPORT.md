@@ -47,14 +47,14 @@ lands in. The links come from `state.actions()`, which returns only the moves th
 the level's mode (4-way arrows in grid levels; walk and jump options in platformer levels). The default export renders
 these as separate ASCII-labelled links in a stable order. The player is an appearance-only `player` sprite, so its glyph,
 color and image are edited on the Sprites tab; old project-level `player` glyphs migrate into this sprite on import.
-Non-ASCII player and tile glyphs fall back to `@` and the sprite's initial, respectively, in the default export. The
-default grid uses percentage widths and basic HTML table attributes rather than depending on CSS.
+Every sprite exports as one printable ASCII character; missing or unsupported glyphs use a conventional symbol (`#` for
+walls, `.` for floor, `@` for the player) or the sprite ID's first character. The editor enforces a one-character glyph.
 
-For readers with broken table rendering, a plain-text layout can instead use a `<pre>` block with one ASCII character per
-tile and one line per row. This avoids both tables and CSS, but loses tile colors and images, depends on a monospaced
-font, and can exceed the screen width on larger grids. Keep the table layout unless testing on the target reader shows a
-table problem; copy the grid rows into `<pre>` in the custom Pug template when text-only rendering is more reliable.
-Reader link-focus behavior and page-turn behavior still vary by firmware; test on the target device before relying on them.
+The default map is ASCII art in a `<pre>` block: one character per tile, one line per row, with no table or CSS dependency.
+The EPUB is post-processed as EPUB 3 pre-paginated content with a 600 by 800 viewport on each generated page, so reader
+font-size and screen-width reflow do not rearrange the map. Readers may scale that fixed page to the device; very large
+grids can still exceed the fixed canvas, so check the target reader profile before using the maximum grid dimensions.
+Reader link-focus behavior and physical page-turn behavior still vary by firmware; test those on the target device.
 
 Use **Preview > Estimate page count** to see the number of reachable states (it stops at 5000).
 

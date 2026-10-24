@@ -9,5 +9,5 @@ const generated = path.join(__dirname, '..', 'src', 'generated', 'templates.js')
 if (process.env.NODE_ENV !== 'production' || !fs.existsSync(generated)) generateTemplates();
 
 const code = CORE.map(f => fs.readFileSync(path.join(__dirname, '..', f), 'utf8')).join('\n') +
-  '\nreturn { Game, mk, mkPlatformer, demo, buildFiles, normalizeProject, estimatePages, escPugText, TEMPLATES };';
+  '\nreturn { Game, mk, mkPlatformer, demo, buildFiles, normalizeProject, estimatePages, escPugText, makeFixedLayout, TEMPLATES };';
 module.exports = new Function(code)();
